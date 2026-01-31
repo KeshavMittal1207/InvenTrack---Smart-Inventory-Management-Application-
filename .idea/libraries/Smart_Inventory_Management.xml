@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Smart Inventory Management">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Inventory-Service.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Order-Service.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Seller-Service.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
