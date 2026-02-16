@@ -1,1 +1,1 @@
-# InvenTrack---Smart-Inventory-Management-Application-
+# InvenTrack - Smart Inventory Management Application
