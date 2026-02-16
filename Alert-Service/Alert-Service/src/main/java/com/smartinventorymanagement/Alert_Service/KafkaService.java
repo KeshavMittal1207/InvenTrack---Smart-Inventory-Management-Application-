@@ -6,7 +6,6 @@ import com.smartinventorymanagement.Alert_Service.Service.AlertService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,32 +15,44 @@ public class KafkaService {
     @Autowired
     private AlertService alertService;
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
     @KafkaListener(topics = "low-stock", groupId = "inventory-group")
     public void listenLowStock(AlertDto alertDto) {
+        log.warn(alertDto.toString());
+        if (alertService.alertExists(
+            alertDto.getAlertType(),
+            alertDto.getProductId(),
+            alertDto.getBatchId()
+        )) return; 
+
         Alert alert = Alert.builder()
                 .alertType(alertDto.getAlertType())
-                .date(alertDto.getDate())
-                .itemId(alertDto.getItemId())
+                .batchId(alertDto.getBatchId())
+                .productId(alertDto.getProductId())
                 .build();
 
-        log.warn("Low Stock Alert: {}", alert.getAlertType());
+        log.warn("Low Stock Alert for product {}", alert.getProductId());
+
         alertService.addAlert(alert);
         alertService.sendMail(alert);
-        kafkaTemplate.send("stock-order",alert.getItemId());
     }
 
     @KafkaListener(topics = "near-expiry", groupId = "inventory-group")
     public void listenNearExpiry(AlertDto alertDto) {
+        log.warn(alertDto.toString());
+        if (alertService.alertExists(
+            alertDto.getAlertType(),
+            alertDto.getProductId(),
+            alertDto.getBatchId()
+        )) return;
+
         Alert alert = Alert.builder()
                 .alertType(alertDto.getAlertType())
-                .date(alertDto.getDate())
-                .itemId(alertDto.getItemId())
+                .productId(alertDto.getProductId())
+                .batchId(alertDto.getBatchId())
                 .build();
 
-        log.warn("Near Expiry Alert: {}", alert.getAlertType());
+        log.warn("Near Expiry Alert for batch {}", alert.getBatchId());
+
         alertService.addAlert(alert);
         alertService.sendMail(alert);
     }

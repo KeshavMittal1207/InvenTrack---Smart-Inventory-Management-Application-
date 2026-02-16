@@ -1,0 +1,128 @@
+.kpi-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow);
+    transition: var(--transition-slow);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gray-300);
+    transition: var(--transition);
+  }
+  
+  .kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .kpi-card-default::before {
+    background: var(--accent);
+  }
+  
+  .kpi-card-success::before {
+    background: var(--success);
+  }
+  
+  .kpi-card-warning::before {
+    background: var(--warning);
+  }
+  
+  .kpi-card-danger::before {
+    background: var(--danger);
+  }
+  
+  .kpi-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+  
+  .kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  
+  .kpi-card-default .kpi-icon {
+    background: rgba(99, 102, 241, 0.1);
+  }
+  
+  .kpi-card-success .kpi-icon {
+    background: rgba(16, 185, 129, 0.1);
+  }
+  
+  .kpi-card-warning .kpi-icon {
+    background: rgba(245, 158, 11, 0.1);
+  }
+  
+  .kpi-card-danger .kpi-icon {
+    background: rgba(239, 68, 68, 0.1);
+  }
+  
+  .kpi-trend {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .kpi-trend.up {
+    background: var(--success-light);
+    color: var(--success);
+  }
+  
+  .kpi-trend.down {
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+  
+  .trend-arrow {
+    font-size: 1rem;
+  }
+  
+  .trend-value {
+    font-family: var(--font-mono);
+  }
+  
+  .kpi-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.03em;
+  }
+  
+  .kpi-title {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .kpi-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+  }

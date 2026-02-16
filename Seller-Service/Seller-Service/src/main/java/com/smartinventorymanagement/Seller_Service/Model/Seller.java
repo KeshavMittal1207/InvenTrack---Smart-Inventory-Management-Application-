@@ -1,5 +1,9 @@
 package com.smartinventorymanagement.Seller_Service.Model;
 
+import java.util.Date;
+
+import com.smartinventorymanagement.Seller_Service.Enums.SellerStatus;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,4 +29,26 @@ public class Seller {
     @NotBlank(message = "Mobile number cannot be blank")
     @Pattern(regexp = "^[0-9]{10}$" , message = "Mobile number must be exactly 10 digits")
     private String mobile;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private SellerStatus status = SellerStatus.ACTIVE;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = new Date();
+        updatedAt = new Date();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = new Date();
+    }
+
 }

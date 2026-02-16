@@ -1,0 +1,184 @@
+.sellers-page {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+  
+  .btn-action {
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--transition);
+  }
+  
+  .btn-view {
+    background: var(--accent);
+    color: white;
+  }
+  
+  .btn-view:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+  
+  .btn-suspend {
+    background: white;
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  
+  .btn-suspend:hover {
+    background: var(--danger);
+    color: white;
+  }
+  
+  .btn-activate {
+    background: white;
+    color: var(--success);
+    border-color: var(--success);
+  }
+  
+  .btn-activate:hover {
+    background: var(--success);
+    color: white;
+  }
+  
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-4);
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 2px solid var(--border);
+    background: var(--gray-50);
+  }
+  
+  .modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--border);
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-close:hover {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border-color: var(--gray-300);
+  }
+  
+  .modal-body {
+    padding: var(--space-6);
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+  }
+  
+  .detail-value {
+    font-size: 0.95rem;
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  
+  .modal-footer {
+    padding: var(--space-5) var(--space-6);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    background: var(--gray-50);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    
+    .btn-action {
+      width: 100%;
+      min-width: 80px;
+    }
+  }

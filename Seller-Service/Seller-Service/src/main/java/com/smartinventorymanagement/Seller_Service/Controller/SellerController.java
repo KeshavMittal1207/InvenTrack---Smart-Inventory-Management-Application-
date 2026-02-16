@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/seller")
 
@@ -21,17 +20,26 @@ public class SellerController {
 
     @PostMapping("/addSeller")
     public ResponseEntity<Seller> addSeller(@Valid @RequestBody Seller seller) {
-        Seller seller1 = sellerService.addSeller(seller);
-        return ResponseEntity.ok(seller1);
+        return ResponseEntity.ok(sellerService.addSeller(seller));
     }
-    @GetMapping("/getSeller")
-    public ResponseEntity<List<Seller>> getAllSeller(){
+    @GetMapping("/getAllSellers")
+    public ResponseEntity<List<Seller>> getAllSellers(){
         return ResponseEntity.ok(sellerService.getAllSeller());
     }
     @GetMapping("/getSeller/{sellerId}")
-    public ResponseEntity<Seller> getSellerById(@PathVariable String sellerId) {
-        return sellerService.getSellerById(sellerId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Seller> getSeller(@PathVariable String sellerId) {
+        return ResponseEntity.ok(sellerService.getSeller(sellerId));
+    }
+    @GetMapping("/validate/{sellerId}")
+    public ResponseEntity<Boolean> validateSeller(
+            @PathVariable String sellerId) {
+        return ResponseEntity.ok(
+                sellerService.isSellerActive(sellerId)
+        );
+    }
+
+    @PatchMapping("/toggle-status/{sellerId}")
+    public ResponseEntity<Seller> toggleStatus(@PathVariable String sellerId){
+        return ResponseEntity.ok(sellerService.toggleStatus(sellerId));
     }
 }

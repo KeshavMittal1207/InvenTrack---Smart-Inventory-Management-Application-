@@ -11,10 +11,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class AlertDto {
-    private String alertId;
+
     private String alertType;
-    private String itemId;
+    private Long productId;
+    private Long batchId;
     private LocalDate date;
 
 }

@@ -3,7 +3,6 @@ package com.smartinventorymanagement.Order_Service.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -26,16 +25,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String orderId;
 
-    @NotEmpty(message = "Item ID cannot be empty")
-    private String itemId;
+    @NotNull(message = "Item ID cannot be empty")
+    @Positive
+    private Long productId;
 
     @Min(value = 1 , message = "Quantity must be at least 1")
     private int quantity;
 
     private LocalDate orderDate;
-
-    @NotNull(message = "Inventory Id cannot be null")
-    @Positive(message = "Inventory Id must be positive")
-    private Long inventoryId;
 
 }

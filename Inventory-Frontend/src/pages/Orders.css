@@ -1,0 +1,66 @@
+.orders-page {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .orders-content {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: var(--space-6);
+  }
+  
+  /* Place Order Card */
+  .place-order-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: var(--space-6);
+    height: fit-content;
+    position: sticky;
+    top: var(--space-6);
+  }
+  
+  .place-order-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--border);
+  }
+  
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  
+  /* Orders History */
+  .orders-history {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: var(--space-6);
+  }
+  
+  .orders-history h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--border);
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .orders-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .place-order-card {
+      position: static;
+    }
+  }

@@ -11,4 +11,13 @@ public interface AlertRepository extends JpaRepository<Alert , String> {
     List<Alert> findAllByAlertType(String alertType);
 
     void deleteByAlertId(String alertId);
+
+    boolean existsByAlertTypeAndProductIdAndBatchId(
+        String alertType,
+        Long productId,
+        Long batchId
+);
+
+List<Alert> findTop5ByOrderByDateDesc();
+
 }

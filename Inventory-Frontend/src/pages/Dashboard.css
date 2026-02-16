@@ -1,0 +1,218 @@
+.dashboard-page {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .page-header {
+    margin-bottom: var(--space-6);
+  }
+  
+  .page-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.02em;
+  }
+  
+  .page-subtitle {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+  }
+  
+  /* KPI Grid */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-8);
+  }
+  
+  /* Charts Grid */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-8);
+  }
+  
+  .chart-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  
+  .chart-header {
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--border);
+    background: var(--gray-50);
+  }
+  
+  .chart-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--space-1);
+  }
+  
+  .chart-header p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+  }
+  
+  .chart-content {
+    padding: var(--space-6);
+  }
+  
+  .chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+  }
+  
+  /* Alerts Preview */
+  .alerts-preview {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: var(--space-6);
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--border);
+  }
+  
+  .section-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  
+  .view-all-link {
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  
+  .view-all-link:hover {
+    color: var(--accent-hover);
+    transform: translateX(4px);
+  }
+  
+  .alerts-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-10);
+  }
+  
+  .alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .alert-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  
+  .alert-item:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+  }
+  
+  .alert-item.alert-high {
+    background: var(--danger-light);
+    border-color: var(--danger);
+  }
+  
+  .alert-item.alert-medium {
+    background: var(--warning-light);
+    border-color: var(--warning);
+  }
+  
+  .alert-item.alert-low {
+    background: var(--info-light);
+    border-color: var(--info);
+  }
+  
+  .alert-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  
+  .alert-content {
+    flex: 1;
+  }
+  
+  .alert-message {
+    font-size: 0.9rem;
+    color: var(--gray-800);
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+  }
+  
+  .alert-time {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    font-family: var(--font-mono);
+  }
+  
+  .alert-badge {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .badge-high {
+    background: var(--danger);
+    color: white;
+  }
+  
+  .badge-medium {
+    background: var(--warning);
+    color: white;
+  }
+  
+  .badge-low {
+    background: var(--info);
+    color: white;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .charts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .kpi-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-4);
+    }
+    
+    .page-header h2 {
+      font-size: 1.5rem;
+    }
+  }

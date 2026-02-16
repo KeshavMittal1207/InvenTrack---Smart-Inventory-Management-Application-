@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,11 @@ public class Alert {
     @NotEmpty(message = "ALert type cannot be empty")
     private String alertType;
 
-    @NotEmpty(message = "Item Id cannot be Empty")
-    private String itemId;
-
+    private Long productId;
+    private Long batchId;
     private LocalDate date;
+    @PrePersist
+    public void onCreate() {
+        this.date = LocalDate.now();
+    }
 }
