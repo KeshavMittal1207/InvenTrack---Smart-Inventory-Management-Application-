@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,7 +14,8 @@ import java.util.Date;
 @Getter
 @Component
 public class JwtUtil {
-    private final String SECRET = "a_very_long_and_secure_secret_key_at_least_32_bytes";
+    @Value("${jwt.secret}")
+    private String secret;
 
     public String generateToken(String username , String role){
         return Jwts.builder()
@@ -21,7 +23,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+86400000))
-                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()),SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()),SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -43,7 +45,7 @@ public class JwtUtil {
     }
     public Claims getClaims(String token){
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
