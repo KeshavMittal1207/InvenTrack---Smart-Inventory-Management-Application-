@@ -4,7 +4,7 @@
 
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.ResponseEntity;
-    import org.springframework.web.bind.annotation.CrossOrigin;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.GetMapping;
     import org.springframework.web.bind.annotation.RequestMapping;
     import org.springframework.web.bind.annotation.RestController;
@@ -21,16 +21,17 @@
         @Autowired
         private DashboardService dashboardService;
 
+        @PreAuthorize("hasRole('STAFF') or hasRole('SHOP_OWNER')")
         @GetMapping("/overview")
         public ResponseEntity<DashboardStatsDto> getStats() {
             return ResponseEntity.ok(dashboardService.getOverview());
         }
-
+        @PreAuthorize("hasRole('STAFF') or hasRole('SHOP_OWNER')")
         @GetMapping("/stock-by-product")
         public ResponseEntity<List<StockByProductDto>> stockByProduct() {
             return ResponseEntity.ok(dashboardService.stockByProduct());
         }
-
+        @PreAuthorize("hasRole('STAFF') or hasRole('SHOP_OWNER')")
         @GetMapping("/expiry-trend")
         public ResponseEntity<List<ExpiryTrendDto>> expiryTrend() {
             return ResponseEntity.ok(dashboardService.expiryTrend());

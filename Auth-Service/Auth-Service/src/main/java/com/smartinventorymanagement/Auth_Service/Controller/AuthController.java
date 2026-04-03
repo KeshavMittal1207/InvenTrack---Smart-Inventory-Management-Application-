@@ -1,7 +1,8 @@
 package com.smartinventorymanagement.Auth_Service.Controller;
-
-import com.smartinventorymanagement.Auth_Service.Dto.LoginRequest;
-import com.smartinventorymanagement.Auth_Service.Dto.RegisterRequest;
+import com.smartinventorymanagement.Auth_Service.Dto.AuthRequest;
+import com.smartinventorymanagement.Auth_Service.Dto.AuthResponse;
+import com.smartinventorymanagement.Auth_Service.Model.User;
+import com.smartinventorymanagement.Auth_Service.Security.JwtUtil;
 import com.smartinventorymanagement.Auth_Service.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,18 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
-        authService.register(request);
-        return ResponseEntity.ok("User Registered");
+    public ResponseEntity<User> register(@RequestBody AuthRequest request){
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request){
-        String token = authService.login(request);
-        return ResponseEntity.ok("Bearer " + token);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request){
+        User user = authService.login(request);
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 }
