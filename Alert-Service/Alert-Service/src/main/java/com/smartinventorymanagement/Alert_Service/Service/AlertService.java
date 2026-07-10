@@ -27,7 +27,17 @@ public class AlertService {
         return alertRepository.save(alert);
     }
 
-    public List<AlertResponseDto> getRecentAlerts(){
+    public Alert createAlert(Alert alert) {
+        if (alertExists(alert.getAlertType(), alert.getProductId(), alert.getBatchId())) {
+            return alert;
+        }
+
+        Alert savedAlert = alertRepository.save(alert);
+        sendMail(savedAlert);
+        return savedAlert;
+    }
+
+    public List<AlertResponseDto> getRecentAlerts() {
 
         List<Alert> alerts = alertRepository.findTop5ByOrderByDateDesc();
 
@@ -46,7 +56,7 @@ public class AlertService {
                     .batchId(alert.getBatchId())
                     .build()
             )
-            .toList();     
+            .toList();
     }
 
     public List<Alert> getAlert() {
@@ -75,7 +85,7 @@ public class AlertService {
     public void sendMail(Alert alert){
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-        
+
             message.setSubject(alert.getAlertType());
             message.setTo("keshavmittal1207@gmail.com");
             message.setFrom("myqwery06@gmail.com");

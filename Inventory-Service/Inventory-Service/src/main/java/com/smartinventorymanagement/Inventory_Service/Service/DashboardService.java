@@ -13,9 +13,14 @@ import org.springframework.stereotype.Service;
 import com.smartinventorymanagement.Inventory_Service.Dto.AlertDto;
 import com.smartinventorymanagement.Inventory_Service.Dto.DashboardStatsDto;
 import com.smartinventorymanagement.Inventory_Service.Dto.ExpiryTrendDto;
+import com.smartinventorymanagement.Inventory_Service.Dto.LowStockSummaryDto;
+import com.smartinventorymanagement.Inventory_Service.Dto.RecentMovementDto;
 import com.smartinventorymanagement.Inventory_Service.Dto.StockByProductDto;
+import com.smartinventorymanagement.Inventory_Service.Model.Product;
+import com.smartinventorymanagement.Inventory_Service.Model.StockMovement;
 import com.smartinventorymanagement.Inventory_Service.Repository.InventoryBatchRepository;
 import com.smartinventorymanagement.Inventory_Service.Repository.ProductRepository;
+import com.smartinventorymanagement.Inventory_Service.Repository.StockMovementRepository;
 import com.smartinventorymanagement.Inventory_Service.Repository.StockSummaryRepository;
 import com.smartinventorymanagement.Inventory_Service.config.AlertFeignClient;
 
@@ -24,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class DashboardService {
-    
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -35,13 +40,19 @@ public class DashboardService {
     private InventoryBatchRepository inventoryBatchRepository;
 
     @Autowired
+    private StockMovementRepository stockMovementRepository;
+
+    @Autowired
     private AlertFeignClient alertFeignClient;
 
-    public DashboardStatsDto getOverview(){
+    @Autowired
+    private InventoryService inventoryService;
+
+    public DashboardStatsDto getOverview() {
 
         long totalProducts = productRepository.count();
-        long totalStock = Optional.ofNullable(stockSummaryRepository.getTotalStock()).orElse(0L);        
-        long lowStock = stockSummaryRepository.countLowStockProducts();        
+        long totalStock = Optional.ofNullable(stockSummaryRepository.getTotalStock()).orElse(0L);
+        long lowStock = stockSummaryRepository.countLowStockProducts();
 
         Date now = new Date();
         Date cutoff = Date.from(
@@ -50,9 +61,7 @@ public class DashboardService {
                         .toInstant()
         );
 
-        long expiringSoon =
-                inventoryBatchRepository.countExpiringSoon(now, cutoff);
-
+        long expiringSoon = inventoryBatchRepository.countExpiringSoon(now, cutoff);
         List<AlertDto> alerts = alertFeignClient.getRecentAlerts();
 
         return new DashboardStatsDto(
@@ -63,6 +72,7 @@ public class DashboardService {
                 alerts
         );
     }
+
     public List<StockByProductDto> stockByProduct() {
         return stockSummaryRepository.stockByProduct();
     }
@@ -75,8 +85,7 @@ public class DashboardService {
                         .toInstant()
         );
 
-        List<Object[]> rows =
-                inventoryBatchRepository.expiryTrend(now, cutoff);
+        List<Object[]> rows = inventoryBatchRepository.expiryTrend(now, cutoff);
 
         List<ExpiryTrendDto> result = new ArrayList<>();
         for (Object[] row : rows) {
@@ -88,4 +97,32 @@ public class DashboardService {
         return result;
     }
 
+    public List<LowStockSummaryDto> lowStockSummary() {
+        return stockSummaryRepository.findLowStockProducts()
+                .stream()
+                .map(summary -> {
+                    Product product = productRepository.findById(summary.getProductId()).orElse(null);
+                    return new LowStockSummaryDto(
+                            summary.getProductId(),
+                            product != null ? product.getName() : "Unknown Product",
+                            summary.getTotalQuantity(),
+                            inventoryService.getThresholdQuantity(summary.getProductId())
+                    );
+                })
+                .toList();
+    }
+
+    public List<RecentMovementDto> recentMovements() {
+        List<StockMovement> movements = stockMovementRepository.findTop5ByOrderByCreatedAtDesc();
+        return movements.stream()
+                .map(movement -> new RecentMovementDto(
+                        movement.getMovementId(),
+                        movement.getProductId(),
+                        movement.getBatchId(),
+                        movement.getMovementType().name(),
+                        movement.getQuantity(),
+                        movement.getCreatedAt()
+                ))
+                .toList();
+    }
 }

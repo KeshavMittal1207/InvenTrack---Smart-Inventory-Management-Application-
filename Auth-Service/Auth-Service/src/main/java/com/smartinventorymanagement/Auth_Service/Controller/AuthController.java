@@ -1,5 +1,6 @@
 package com.smartinventorymanagement.Auth_Service.Controller;
 
+import com.smartinventorymanagement.Auth_Service.Dto.AuthResponse;
 import com.smartinventorymanagement.Auth_Service.Dto.LoginRequest;
 import com.smartinventorymanagement.Auth_Service.Dto.RegisterRequest;
 import com.smartinventorymanagement.Auth_Service.Service.AuthService;
@@ -18,14 +19,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
-        authService.register(request);
-        return ResponseEntity.ok("User Registered");
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request){
-        String token = authService.login(request);
-        return ResponseEntity.ok("Bearer " + token);
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }

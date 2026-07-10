@@ -1,5 +1,6 @@
 package com.smartinventorymanagement.Auth_Service.Service;
 
+import com.smartinventorymanagement.Auth_Service.Dto.AuthResponse;
 import com.smartinventorymanagement.Auth_Service.Dto.LoginRequest;
 import com.smartinventorymanagement.Auth_Service.Dto.RegisterRequest;
 import com.smartinventorymanagement.Auth_Service.Model.User;
@@ -18,19 +19,36 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void register(RegisterRequest request){
-        User user = User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword())).build();
+    public AuthResponse register(RegisterRequest request) {
+        userRepository.findByUsername(request.getUsername())
+                .ifPresent(existingUser -> {
+                    throw new RuntimeException("Username already exists");
+                });
+
+        User user = User.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
+
         userRepository.save(user);
+
+        return new AuthResponse(
+                JwtUtil.generateToken(user.getUsername()),
+                user.getUsername()
+        );
     }
 
-    public String login(LoginRequest request){
+    public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid Credentials");
         }
-        return JwtUtil.generateToken(user.getUsername());
-    }
 
+        return new AuthResponse(
+                JwtUtil.generateToken(user.getUsername()),
+                user.getUsername()
+        );
+    }
 }

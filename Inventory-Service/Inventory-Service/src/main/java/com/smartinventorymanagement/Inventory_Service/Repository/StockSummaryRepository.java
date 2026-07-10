@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.smartinventorymanagement.Inventory_Service.Model.StockSummary;
 
-public interface StockSummaryRepository extends JpaRepository<StockSummary,Long> {
+public interface StockSummaryRepository extends JpaRepository<StockSummary, Long> {
     @Query("SELECT SUM(s.totalQuantity) FROM StockSummary s")
     Long getTotalStock();
 
@@ -20,7 +21,7 @@ public interface StockSummaryRepository extends JpaRepository<StockSummary,Long>
         WHERE b.productId = s.productId
     )
 """)
-long countLowStockProducts();
+    long countLowStockProducts();
 
     @Query("""
         SELECT new com.smartinventorymanagement.Inventory_Service.Dto.StockByProductDto(
@@ -42,4 +43,12 @@ long countLowStockProducts();
         )
     """)
     List<StockSummary> findLowStockProducts();
+
+    @Query("""
+        SELECT COALESCE(SUM(b.thresholdQuantity), 0)
+        FROM InventoryBatch b
+        WHERE b.productId = :productId
+          AND b.status = com.smartinventorymanagement.Inventory_Service.Enums.BatchStatus.ACTIVE
+    """)
+    int getActiveThresholdQuantityByProductId(@Param("productId") Long productId);
 }
